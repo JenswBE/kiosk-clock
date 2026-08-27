@@ -1,8 +1,8 @@
-module fullscreen-clock
+module clock
 
 go 1.26
 
-require fyne.io/fyne/v2 v2.8.0
+require fyne.io/fyne/v2 v2.7.4
 
 require (
 	fyne.io/systray v1.12.2 // indirect
@@ -18,6 +18,7 @@ require (
 	github.com/fyne-io/image v0.1.1 // indirect
 	github.com/fyne-io/oksvg v0.2.0 // indirect
 	github.com/go-gl/gl v0.0.0-20260331235117-4566fea9a276 // indirect
+	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20240506104042-037f3cc74f2a // indirect
 	github.com/go-gl/glfw/v3.4/glfw v0.1.0-pre.1.0.20260707082822-2a407d02d01a // indirect
 	github.com/go-text/render v0.2.1 // indirect
 	github.com/go-text/typesetting v0.3.4 // indirect
