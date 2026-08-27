@@ -40,7 +40,7 @@ sudo apt-get install \
 
 For NixOS:
 ```sh
-nix-shell -p go libGL pkg-config libX11.dev libxcursor libxi libxinerama libxrandr libxxf86vm libxkbcommon wayland
+nix-shell -p go libGL pkg-config libX11.dev libxcursor libxi libxinerama libxrandr libxxf86vm libxkbcommon wayland brightnessctl
 ```
 
 

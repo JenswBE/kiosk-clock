@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"image/color"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -24,6 +25,7 @@ import (
 const (
 	configFileName = ".fullscreen-clock.json"
 	datePadding    = 40
+	backlightDir   = "/sys/class/backlight"
 )
 
 var dutchWeekdays = [...]string{
@@ -237,7 +239,23 @@ func showSettings(
 		},
 	)
 
-	content := container.NewVBox(
+	brightness, err := readBacklightPercentage()
+	if err != nil {
+		log.Println("Failed to read backlight brightness:", err)
+		brightness = 50
+	}
+	brightnessSlider := widget.NewSlider(0, 100)
+	brightnessSlider.Step = 1
+	brightnessSlider.Value = float64(brightness)
+
+	brightnessSlider.OnChanged = func(value float64) {
+		if err := setBacklightBrightness(uint8(value)); err != nil {
+			log.Println("Failed to set backlight brightness:", err)
+			return
+		}
+	}
+
+	settingsObjects := []fyne.CanvasObject{
 		widget.NewLabelWithStyle(
 			"Instellingen",
 			fyne.TextAlignCenter,
@@ -251,8 +269,13 @@ func showSettings(
 		widget.NewLabel("Achtergrondkleur"),
 		backgroundColorButton,
 
+		widget.NewLabel("Helderheid"),
+		brightnessSlider,
+
 		layout.NewSpacer(),
-	)
+	}
+
+	content := container.NewVBox(settingsObjects...)
 
 	closeButton := widget.NewButton("Sluiten", nil)
 
