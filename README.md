@@ -23,6 +23,10 @@ nix build .#default --print-build-logs
 ## Publishing new version
 
 ```bash
+# Settings
+CLOCK_VERSION=v0.1.1
+CLOCK_VERSION_MSG="Fixed vendor hash"
+
 # Ensure cachix is installed
 nix-shell -p cachix
 
@@ -36,7 +40,11 @@ path=$(nix build --no-link --print-out-paths)
 echo "$path" | cachix push jenswbe
 
 # Pin version
-cachix pin jenswbe v0.1.0 "$path"
+cachix pin jenswbe "${CLOCK_VERSION:?}" "$path"
+
+# Git tag
+git commit ...
+git tag -a -m "${CLOCK_VERSION_MSG:?}" "${CLOCK_VERSION:?}"
 ```
 
 ## Miscellaneous

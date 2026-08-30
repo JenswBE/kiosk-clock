@@ -24,7 +24,7 @@
 
             # Set this to the hash reported by Nix if dependencies need
             # to be fetched. null means don't use vendored dependencies.
-            vendorHash = "sha256-SLZuC4ImkgrthuPOHxJ/PJadDEdJFAHCghVCtZy681s=";
+            vendorHash = "sha256-7lP9oy2HW3AZVa5QNovj+b/uI+xJNsmPOwhteJNMXCA=";
 
             subPackages = [ "." ];
 
