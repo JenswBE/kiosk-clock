@@ -95,7 +95,7 @@ func setBacklightBrightness(percentage uint8) error {
 	cmd := exec.Command(
 		"brightnessctl",
 		"set",
-		value,
+		value, // #nosec G204: User input strictly validated
 	)
 
 	output, err := cmd.CombinedOutput()
