@@ -24,8 +24,29 @@ nix build .#default --print-build-logs
 
 ```bash
 # Settings
-CLOCK_VERSION=v0.1.1
-CLOCK_VERSION_MSG="Fixed vendor hash"
+CLOCK_VERSION=v0.1.2
+CLOCK_VERSION_MSG="Bump dependencies"
+
+# Ensure Golang is mod is clean
+go mod tidy
+go test ./...
+go fix ./...
+
+# Discard vendorHash
+sed -i -E 's/(\s*)vendorHash.*/\1vendorHash = ""/' flake.nix
+
+# Build to get new hash => Copy/paste hash into flake.nix
+nix build .#default --print-build-logs
+
+# Validate build with updated vendorHash
+nix build .#default --print-build-logs
+
+# Git tag
+git add -A
+git commit -m "${CLOCK_VERSION_MSG:?}"
+git push origin main
+git tag -a -m "${CLOCK_VERSION_MSG:?}" "${CLOCK_VERSION:?}"
+git push --tags origin main
 
 # Ensure cachix is installed
 nix-shell -p cachix
@@ -34,17 +55,13 @@ nix-shell -p cachix
 cachix authtoken AUTH_TOKEN
 
 # Build flake
-path=$(nix build --no-link --print-out-paths)
+CLOCK_PATH=$(nix build --no-link --print-out-paths "github:jenswbe/kiosk-clock?ref=${CLOCK_VERSION:?}")
 
 # Push to Cachix
-echo "$path" | cachix push jenswbe
+echo "${CLOCK_PATH:?}" | cachix push jenswbe
 
 # Pin version
-cachix pin jenswbe "${CLOCK_VERSION:?}" "$path"
-
-# Git tag
-git commit ...
-git tag -a -m "${CLOCK_VERSION_MSG:?}" "${CLOCK_VERSION:?}"
+cachix pin jenswbe "${CLOCK_VERSION:?}" "${CLOCK_PATH:?}"
 ```
 
 ## Miscellaneous

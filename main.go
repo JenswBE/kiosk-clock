@@ -17,6 +17,7 @@ import (
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/driver/desktop"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
@@ -167,6 +168,50 @@ func dutchDate(t time.Time) string {
 		t.Format("2006")
 }
 
+// hiddenCursorWidget is a transparent Fyne widget that causes the
+// cursor to be hidden while the pointer is over it.
+type hiddenCursorWidget struct {
+	widget.BaseWidget
+}
+
+func newHiddenCursorWidget() *hiddenCursorWidget {
+	w := &hiddenCursorWidget{}
+	w.ExtendBaseWidget(w)
+	return w
+}
+
+func (w *hiddenCursorWidget) Cursor() desktop.Cursor {
+	return desktop.HiddenCursor
+}
+
+func (w *hiddenCursorWidget) CreateRenderer() fyne.WidgetRenderer {
+	return &hiddenCursorRenderer{
+		widget: w,
+	}
+}
+
+type hiddenCursorRenderer struct {
+	widget *hiddenCursorWidget
+}
+
+func (r *hiddenCursorRenderer) Layout(size fyne.Size) {
+	r.widget.Resize(size)
+}
+
+func (r *hiddenCursorRenderer) MinSize() fyne.Size {
+	return fyne.Size{}
+}
+
+func (r *hiddenCursorRenderer) Objects() []fyne.CanvasObject {
+	return nil
+}
+
+func (r *hiddenCursorRenderer) Refresh() {
+}
+
+func (r *hiddenCursorRenderer) Destroy() {
+}
+
 func showSettings(
 	w fyne.Window,
 	config *Config,
@@ -244,6 +289,7 @@ func showSettings(
 		log.Println("Failed to read backlight brightness:", err)
 		brightness = 50
 	}
+
 	brightnessSlider := widget.NewSlider(0, 100)
 	brightnessSlider.Step = 1
 	brightnessSlider.Value = float64(brightness)
@@ -390,6 +436,8 @@ func main() {
 		settingsButton,
 	)
 
+	hiddenCursor := newHiddenCursorWidget()
+
 	root := container.NewStack(
 		background,
 		content,
@@ -400,6 +448,7 @@ func main() {
 			nil,
 			nil,
 		),
+		hiddenCursor,
 	)
 
 	w.SetContent(root)
