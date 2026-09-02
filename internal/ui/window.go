@@ -26,7 +26,7 @@ const datePadding = 40
 func Run() {
 	cfg := config.Load()
 
-	a := app.NewWithID("be.example.fullscreenclock")
+	a := app.NewWithID("be.jenswbe.fullscreenclock")
 
 	w := a.NewWindow("Clock")
 	w.SetFullScreen(true)
@@ -47,7 +47,7 @@ func Run() {
 	dateText := canvas.NewText("", textColor)
 	dateText.TextSize = 80
 
-	status := newStatusOverview(dateText.TextSize)
+	status := newStatusOverview(70)
 
 	// container.NewCenter positions its child based on the child's size at
 	// the time the center container itself is laid out. Refreshing a
