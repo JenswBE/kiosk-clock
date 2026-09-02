@@ -14,7 +14,7 @@ A simple fullscreen clock written in Go using [Fyne](https://fyne.io/).
 
 ```bash
 # Ensure deps are installed
-nix-shell -p go libGL pkg-config libX11.dev libxcursor libxi libxinerama libxrandr libxxf86vm libxkbcommon wayland brightnessctl
+nix-shell -p cachix go libGL pkg-config libX11.dev libxcursor libxi libxinerama libxrandr libxxf86vm libxkbcommon wayland brightnessctl
 
 # Run go tests and fixes
 go mod tidy
@@ -58,9 +58,6 @@ git commit -m "${CLOCK_VERSION_MSG:?}"
 git push origin main
 git tag -a -m "${CLOCK_VERSION_MSG:?}" "${CLOCK_VERSION:?}"
 git push --tags origin main
-
-# Ensure cachix is installed
-nix-shell -p cachix
 
 # Go to https://app.cachix.org/cache/jenswbe/settings/authtokens and create a new read/write token
 cachix authtoken AUTH_TOKEN

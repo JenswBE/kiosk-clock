@@ -42,18 +42,12 @@ func newStatusOverview(textSize float32) *statusOverview {
 	ntpValue.TextSize = textSize
 	ntpValue.Alignment = fyne.TextAlignLeading
 
-	// WiFi row: label and value side by side, left-aligned within centered container
-	wifiRow := container.NewHBox(wifiLabel, wifiValue)
-
-	// NTP row: label and value side by side, left-aligned within centered container
-	ntpRow := container.NewHBox(ntpLabel, ntpValue)
-
 	return &statusOverview{
 		wifiLabel: wifiLabel,
 		wifiValue: wifiValue,
 		ntpLabel:  ntpLabel,
 		ntpValue:  ntpValue,
-		Content:   container.NewVBox(wifiRow, ntpRow),
+		Content:   container.NewVBox(wifiLabel, wifiValue, newSpacer(80), ntpLabel, ntpValue),
 	}
 }
 

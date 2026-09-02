@@ -49,6 +49,15 @@ func Run() {
 
 	status := newStatusOverview(dateText.TextSize)
 
+	// container.NewCenter positions its child based on the child's size at
+	// the time the center container itself is laid out. Refreshing a
+	// canvas.Text only repaints it in place, so these wrappers must be
+	// refreshed too whenever the text content changes, otherwise the text
+	// keeps the (stale) position/size from the previous layout pass.
+	timeCenter := container.NewCenter(timeText)
+	dateCenter := container.NewCenter(dateText)
+	statusCenter := container.NewCenter(status.Content)
+
 	update := func() {
 		// Check system status
 		wifiStatus, wifiOK, wifiErr := system.WifiConnected()
@@ -63,11 +72,11 @@ func Run() {
 			status.Content.Hide()
 			now := time.Now()
 			timeText.Text = formatTime(now)
-			timeText.Refresh()
 			timeText.Show()
+			timeCenter.Refresh()
 			dateText.Text = formatDate(now)
-			dateText.Refresh()
 			dateText.Show()
+			dateCenter.Refresh()
 		} else {
 			// System issue => Show status overview
 			background.FillColor = color.Black
@@ -75,12 +84,13 @@ func Run() {
 			timeText.Hide()
 			dateText.Hide()
 			status.Content.Show()
+			statusCenter.Refresh()
 		}
 		background.Refresh()
 	}
 
 	dateArea := container.NewVBox(
-		container.NewCenter(dateText),
+		dateCenter,
 		// Keep the date/status area slightly above the bottom edge by
 		// reserving a fixed amount of space underneath it.
 		newSpacer(datePadding),
@@ -91,10 +101,7 @@ func Run() {
 		dateArea,
 		nil,
 		nil,
-		container.NewStack(
-			container.NewCenter(timeText),
-			container.NewCenter(status.Content),
-		),
+		container.NewStack(timeCenter, statusCenter),
 	)
 
 	// Small settings cog in the top-right corner.
