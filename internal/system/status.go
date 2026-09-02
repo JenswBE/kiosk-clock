@@ -50,7 +50,7 @@ func WifiConnected() (string, bool, error) {
 }
 
 func parseWifiConnected(output string) (string, bool) {
-	for _, line := range strings.Split(strings.TrimSpace(output), "\n") {
+	for line := range strings.SplitSeq(strings.TrimSpace(output), "\n") {
 		fields := strings.SplitN(strings.TrimSpace(line), ":", 2)
 		if len(fields) != 2 {
 			continue

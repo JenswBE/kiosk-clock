@@ -35,8 +35,8 @@ nix build .#default --print-build-logs
 
 ```bash
 # Settings
-CLOCK_VERSION=v0.1.2
-CLOCK_VERSION_MSG="Bump dependencies"
+CLOCK_VERSION=v0.1.3
+CLOCK_VERSION_MSG="Bump version"
 
 # Ensure Golang is mod is clean
 go mod tidy
@@ -44,7 +44,7 @@ go test ./...
 go fix ./...
 
 # Discard vendorHash
-sed -i -E 's/(\s*)vendorHash.*/\1vendorHash = ""/' flake.nix
+sed -i -E 's/(\s*)vendorHash.*/\1vendorHash = "";/' flake.nix
 
 # Build to get new hash => Copy/paste hash into flake.nix
 nix build .#default --print-build-logs
