@@ -35,7 +35,7 @@ nix build .#default --print-build-logs
 
 ```bash
 # Settings
-CLOCK_VERSION=v0.1.3
+CLOCK_VERSION=v0.1.4
 CLOCK_VERSION_MSG="Bump version"
 
 # Ensure Golang is mod is clean
@@ -52,18 +52,21 @@ nix build .#default --print-build-logs
 # Validate build with updated vendorHash
 nix build .#default --print-build-logs
 
+# Update version in flake.nix
+sed -i -E 's/(\s*)version.*/\1version = "'"${CLOCK_VERSION#v}"'";/' flake.nix
+
 # Git tag
 git add -A
 git commit -m "${CLOCK_VERSION_MSG:?}"
 git push origin main
-git tag -a -m "${CLOCK_VERSION_MSG:?}" "${CLOCK_VERSION:?}"
+git tag -a -m "${CLOCK_VERSION_MSG:?}" "${CLOCK_VERSION#v}"
 git push --tags origin main
 
 # Go to https://app.cachix.org/cache/jenswbe/settings/authtokens and create a new read/write token
 cachix authtoken AUTH_TOKEN
 
 # Build flake
-CLOCK_PATH=$(nix build --no-link --print-out-paths "github:jenswbe/kiosk-clock?ref=${CLOCK_VERSION:?}")
+CLOCK_PATH=$(nix build --no-link --print-out-paths "github:jenswbe/kiosk-clock?ref=${CLOCK_VERSION#v}")
 
 # Push to Cachix
 echo "${CLOCK_PATH:?}" | cachix push jenswbe
