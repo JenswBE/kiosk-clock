@@ -26,7 +26,7 @@
             # to be fetched. null means don't use vendored dependencies.
             vendorHash = "sha256-veJbO0MXmDwfI7IyKoDTy2/jaxUy4whgzE/BExqmIbA=";
 
-            subPackages = [ "." ];
+            subPackages = [ "cmd/clock" ];
 
             nativeBuildInputs = with pkgs; [
               pkg-config

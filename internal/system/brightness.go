@@ -1,4 +1,7 @@
-package main
+// Package system provides access to host system facilities used by the
+// clock, such as the backlight, network status, NTP sync status and
+// power management.
+package system
 
 import (
 	"errors"
@@ -8,7 +11,9 @@ import (
 	"strings"
 )
 
-func readBacklightPercentage() (uint8, error) {
+// ReadBacklightPercentage returns the current backlight brightness as
+// reported by brightnessctl, in the range 0-100.
+func ReadBacklightPercentage() (uint8, error) {
 	cmd := exec.Command(
 		"brightnessctl",
 		"--list",
@@ -30,7 +35,13 @@ func readBacklightPercentage() (uint8, error) {
 		return 0, fmt.Errorf("failed to execute brightnessctl: %w", err)
 	}
 
-	line := strings.TrimSpace(string(output))
+	return parseBacklightPercentage(string(output))
+}
+
+// parseBacklightPercentage parses the machine-readable output of
+// `brightnessctl --list --class backlight --machine-readable`.
+func parseBacklightPercentage(output string) (uint8, error) {
+	line := strings.TrimSpace(output)
 	if line == "" {
 		return 0, fmt.Errorf("brightnessctl returned no backlight devices")
 	}
@@ -82,7 +93,7 @@ func readBacklightPercentage() (uint8, error) {
 	return uint8(value), nil
 }
 
-func setBacklightBrightness(percentage uint8) error {
+func SetBacklightBrightness(percentage uint8) error {
 	if percentage > 100 {
 		return fmt.Errorf(
 			"brightness percentage out of range: %d (must be between 0 and 100)",

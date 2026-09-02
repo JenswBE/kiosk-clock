@@ -2,6 +2,14 @@
 
 A simple fullscreen clock written in Go using [Fyne](https://fyne.io/).
 
+## Project structure
+
+- `cmd/clock` — application entrypoint
+- `internal/config` — loading, saving and validating the config file
+- `internal/system` — backlight, WiFi/NTP status and power management (shutdown/reboot)
+- `internal/ui` — the Fyne window, clock/date/status widgets and settings dialog
+- `internal/assets` — bundled fonts
+
 ## Local development
 
 ```bash
@@ -12,6 +20,9 @@ nix-shell -p go libGL pkg-config libX11.dev libxcursor libxi libxinerama libxran
 go mod tidy
 go test ./...
 go fix ./...
+
+# To test the non-happy flow
+go run --tags dryrun,offline ./...
 
 # Validate flake
 nix flake check
@@ -70,5 +81,6 @@ cachix pin jenswbe "${CLOCK_VERSION:?}" "${CLOCK_PATH:?}"
 
 ```bash
 go install fyne.io/tools/cmd/fyne@latest
-fyne bundle -o bundled.go ChivoMono-ExtraBold.ttf
+cd internal/assets
+fyne bundle -o bundled.go -package assets ChivoMono-ExtraBold.ttf
 ```
