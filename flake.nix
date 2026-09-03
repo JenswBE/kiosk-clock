@@ -24,7 +24,7 @@
 
             # Set this to the hash reported by Nix if dependencies need
             # to be fetched. null means don't use vendored dependencies.
-            vendorHash = "sha256-veJbO0MXmDwfI7IyKoDTy2/jaxUy4whgzE/BExqmIbA=";
+            vendorHash = "sha256-n+5C2P/QRHKm1Avcs0T3lTFJCdbcOIKdhXr+1m3jsA4=";
 
             subPackages = [ "cmd/clock" ];
 
