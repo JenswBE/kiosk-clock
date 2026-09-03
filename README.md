@@ -59,7 +59,7 @@ sed -i -E 's/(\s*)version.*/\1version = "'"${CLOCK_VERSION#v}"'";/' flake.nix
 git add -A
 git commit -m "${CLOCK_VERSION_MSG:?}"
 git push origin main
-git tag -a -m "${CLOCK_VERSION_MSG:?}" "${CLOCK_VERSION#v}"
+git tag -a -m "${CLOCK_VERSION_MSG:?}" "${CLOCK_VERSION:?}"
 git push --tags origin main
 
 # Go to https://app.cachix.org/cache/jenswbe/settings/authtokens and create a new read/write token
