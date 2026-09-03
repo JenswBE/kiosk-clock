@@ -2,7 +2,7 @@ module clock
 
 go 1.26
 
-require fyne.io/fyne/v2 v2.8.0
+require fyne.io/fyne/v2 v2.8.1
 
 require (
 	fyne.io/systray v1.12.3-0.20260810170012-af4e8e793ec4 // indirect
