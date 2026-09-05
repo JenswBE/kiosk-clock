@@ -66,7 +66,7 @@ git push --tags origin main
 cachix authtoken AUTH_TOKEN
 
 # Build flake
-CLOCK_PATH=$(nix build --no-link --print-out-paths "github:jenswbe/kiosk-clock?ref=${CLOCK_VERSION#v}")
+CLOCK_PATH=$(nix build --no-link --print-out-paths "github:jenswbe/kiosk-clock?ref=${CLOCK_VERSION:?}")
 
 # Push to Cachix
 echo "${CLOCK_PATH:?}" | cachix push jenswbe
