@@ -125,8 +125,6 @@ func Run() {
 		settingsButton,
 	)
 
-	hiddenCursor := newHiddenCursorWidget()
-
 	root := container.NewStack(
 		background,
 		content,
@@ -137,7 +135,6 @@ func Run() {
 			nil,
 			nil,
 		),
-		hiddenCursor,
 	)
 
 	w.SetContent(root)

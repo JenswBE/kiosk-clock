@@ -35,7 +35,7 @@ nix build .#default --print-build-logs
 
 ```bash
 # Settings
-CLOCK_VERSION=v0.1.5
+CLOCK_VERSION=v0.1.6
 CLOCK_VERSION_MSG="Bump version"
 
 # Ensure Golang is mod is clean
