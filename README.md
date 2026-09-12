@@ -24,6 +24,9 @@ go fix ./...
 # To test the non-happy flow
 go run --tags dryrun,offline ./...
 
+# Update flake.lock
+nix flake update
+
 # Validate flake
 nix flake check
 
@@ -35,8 +38,8 @@ nix build .#default --print-build-logs
 
 ```bash
 # Settings
-CLOCK_VERSION=v0.1.6
-CLOCK_VERSION_MSG="Bump version"
+CLOCK_VERSION=v0.1.7
+CLOCK_VERSION_MSG="Increase clock size and update flake"
 
 # Ensure Golang is mod is clean
 go mod tidy

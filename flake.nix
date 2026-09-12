@@ -18,13 +18,13 @@
         {
           packages.default = pkgs.buildGoModule {
             pname = "clock";
-            version = "0.1.6";
+            version = "0.1.7";
 
             src = ./.;
 
             # Set this to the hash reported by Nix if dependencies need
             # to be fetched. null means don't use vendored dependencies.
-            vendorHash = "sha256-n+5C2P/QRHKm1Avcs0T3lTFJCdbcOIKdhXr+1m3jsA4=";
+            vendorHash = "sha256-eTZWfyszMCTgL/TFELvtJwdgV1GoIuJTzB+ykpgb3XA=";
 
             subPackages = [ "cmd/clock" ];
 

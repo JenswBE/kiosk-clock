@@ -38,7 +38,7 @@ func Run() {
 	background := canvas.NewRectangle(backgroundColor)
 
 	timeText := canvas.NewText("", textColor)
-	timeText.TextSize = 275
+	timeText.TextSize = 350
 	timeText.TextStyle = fyne.TextStyle{
 		Bold: true,
 	}
